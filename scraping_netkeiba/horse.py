@@ -14,11 +14,10 @@ class Horse:
         self.__horse_id: str = horse_id
         self.__soup: BeautifulSoup = BeautifulSoup(html, "html.parser")
         self.__horse_title: Tag = self.__soup.select_one("div.horse_title")
-        self.__profile_table: Tag= self.__soup.select_one("table.db_prof_table")
+        self.__profile_table: Tag = self.__soup.select_one("table.db_prof_table")
         self.validate()
 
-
-    def   name(self) -> str:
+    def name(self) -> str:
         return self.__horse_title.select_one("h1").text
 
     def eng_name(self) -> str:
