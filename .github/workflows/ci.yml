@@ -1,0 +1,45 @@
+name: CI
+on: [ pull_request, workflow_dispatch ]
+jobs:
+  format:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Install dependencies
+        run: make ci
+      - name: Run format check
+        run: |
+          RESULT=$(make -s fmt-ci)
+          if [ -n "$RESULT" ]; then
+            gh pr comment $PR_NUMBER --body "
+            Files that need to be formatted:
+
+            \`\`\`
+            $RESULT
+            \`\`\`"
+            echo "Files need to be formatted."
+            exit 1
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.number }}
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Install dependencies
+        run: make ci
+      - name: Run tests
+        run: make test-ci
+      - name: Report test results
+        uses: mikepenz/action-junit-report@v3
+        with:
+          report_paths: results/*.xml

@@ -1,0 +1,9 @@
+# html cache
+.cache/*
+!.cache/.gitkeep
+
+# python
+__pycache__/
+
+# pytest
+.pytest_cache/
