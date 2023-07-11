@@ -15,7 +15,7 @@ requests = "^2.31.0"
 tqdm = "^4.65.0"
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.3.0"
+black = "^23.7.0"
 pytest = "^7.3.1"
 pytest-env = "^0.8.1"
 pytest-xdist = "^3.3.1"
